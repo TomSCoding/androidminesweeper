@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Register first click to generate mines
     boolean reset_game = true;
+    // Game turn inactive when a mine is clicked
+    boolean game_active = true;
+    // Global Adapter
+    CustomSquares adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // add squares to custom adapter
-        CustomSquares adapter = new CustomSquares(this);
+        adapter = new CustomSquares(this);
         adapter.setSquares(squares);
 
         // setting the gridview to be populated using Custom Adapter
@@ -50,22 +54,45 @@ public class MainActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Change color to gray when clicked
-                adapter.getItem(position).setVisible(true);
+                // Check if the clicked field is a minefield
+                checkMine(adapter, position);
 
-                // Generate mines on first click or when game is reset
-                if(reset_game){
-                    generateMines(adapter,position);
-                    reset_game=false;
+                // if a mine has not been clicked the game is active
+                if (game_active) {
+                    // Change color to gray when clicked
+                    adapter.getItem(position).setVisible(true);
+
+                    // Generate mines on first click or when game is reset
+                    if(reset_game){
+                        generateMines(adapter,position);
+                        reset_game=false;
+                    }
+
+                    Log.d("Click position = ", String.valueOf(position));
+
+                    Log.d("Position = ", String.valueOf(position));
+
                 }
 
-                Log.d("Click position = ", String.valueOf(position));
-
-                Log.d("Position = ", String.valueOf(position));
+                // Sync the changes with the ui
                 adapter.notifyDataSetChanged();
-
             }
         });
+    }
+
+    // Check if the user clicked on a mine
+    public void checkMine(CustomSquares adapter, int position){
+        if (adapter.getItem(position).isMine()){
+            revealBoard(adapter);
+            game_active=false;
+        }
+    }
+
+    // Reveal all the pieces in board ( When a mine is clicked )
+    public void revealBoard(CustomSquares adapter){
+        for (int i=0; i<100; i++){
+            adapter.getItem(i).setVisible(true);
+        }
     }
 
     // Generate 20 random mines on baord
@@ -84,6 +111,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    // Reset game when button is pressed
+    public void resetGame(View v){
+        // Reset the game variables
+        reset_game = true;
+        game_active = true;
+
+        // Reset the board
+        for (int i=0; i<100; i++){
+            adapter.getItem(i).setVisible(false);
+            adapter.getItem(i).setMine(false);
+            adapter.getItem(i).setFlagged(false);
+        }
+
+        // Update the ui
+        adapter.notifyDataSetChanged();
+
+        Log.d("Game Reset = ", "Success");
+    }
+
 
 
 

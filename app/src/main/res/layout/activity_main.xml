@@ -68,6 +68,7 @@
         android:layout_width="160dp"
         android:layout_height="60dp"
         android:layout_marginBottom="8dp"
+        android:onClick="resetGame"
         android:text="@string/reset_game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mode_btn"
