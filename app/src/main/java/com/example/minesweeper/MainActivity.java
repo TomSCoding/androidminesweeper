@@ -27,6 +27,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Create a list of squares to populate the grid
+        List<Square> squares = new ArrayList<>();
+        for(int x=0; x<10; x++) {
+            for(int y=0; y<10; y++) {
+                // Assign the default element image from android
+                squares.add(new Square(x,y, false, false, false));
+            }
+        }
+
+        // add squares to custom adapter
+        CustomSquares adapter = new CustomSquares(this);
+        adapter.setSquares(squares);
+
+        // setting the gridview to be populated using Custom Adapter
+        GridView gridView = findViewById(R.id.gridView);
+        gridView.setAdapter(adapter);
 
     }
 
