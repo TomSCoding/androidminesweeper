@@ -21,21 +21,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    boolean game_active;
-    // Main Array that tracks moves
-    Square[][] move_board;
-    // Register first click
+    // Register first click to generate mines
     boolean reset_game = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Set the game to active
-        game_active = true;
-
-
 
         // Create a list of squares to populate the grid
         List<Square> squares = new ArrayList<>();
@@ -61,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 // Change color to gray when clicked
                 adapter.getItem(position).setVisible(true);
 
+                // Generate mines on first click or when game is reset
+                if(reset_game){
+                    generateMines(adapter,position);
+                    reset_game=false;
+                }
+
                 Log.d("Click position = ", String.valueOf(position));
 
                 Log.d("Position = ", String.valueOf(position));
@@ -68,6 +66,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // Generate 20 random mines on baord
+    public void generateMines(CustomSquares adapter, int position){
+        int randomNum;
+        Random random = new Random();
+        int i = 0;
+        Log.d("Here = ", "function call");
+        while(i<20){
+            randomNum = random.nextInt(99);
+            // Check if field is not a mine field, or the clicked position is not the selected position/
+            if (!adapter.getItem(randomNum).isMine() && randomNum!=position){
+                Log.d("Here = ", "in loop");
+                adapter.getItem(randomNum).setMine(true);
+                i++;
+            }
+        }
     }
 
 
