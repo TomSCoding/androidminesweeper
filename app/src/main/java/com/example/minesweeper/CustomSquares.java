@@ -47,14 +47,17 @@ public class CustomSquares extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
         // Set the relative layout for each square
         RelativeLayout relativeLayout=new RelativeLayout(context);
         relativeLayout.setLayoutParams(new GridView.LayoutParams((int)dpToPixels(context, 34), (int)dpToPixels(context, 34)));
 
-        // Set the background color to gray if mine / if visible / else covered
-        if (getItem(position).isMine() && getItem(position).isVisible()) {
+        // Set the background color to gray if flagged / mine / if visible / else covered
+        if (getItem(position).isFlagged()){
+            // For flagged display yellow
+            relativeLayout.setBackgroundColor(Color.parseColor("#fee440"));
+        }
+        else if (getItem(position).isMine() && getItem(position).isVisible()) {
+            // If a mine is revealed display red with a balck m
             TextView textview = new TextView(context);
             textview.setText("M");
             textview.setTextSize(24);
@@ -63,14 +66,21 @@ public class CustomSquares extends BaseAdapter {
             relativeLayout.addView(textview);
         }
         else if (getItem(position).isVisible()) {
+            // If a field is revealed with a number
+            if (getItem(position).getMine_number() > 0) {
+                TextView textview = new TextView(context);
+                textview.setText(String.valueOf(getItem(position).getMine_number()));
+                textview.setTextSize(24);
+                textview.setGravity(Gravity.CENTER_HORIZONTAL);
+                relativeLayout.addView(textview);
+            }
             relativeLayout.setBackgroundColor(Color.parseColor("#8F8F8F"));
         } else {
+            // Covered field black
             relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
         }
 
-
-        Log.d("Item = ", String.valueOf(getItem(position)));
-        //relativeLayout.addView(imageView);
+        //Log.d("Item = ", String.valueOf(getItem(position)));
 
         return relativeLayout;
     }

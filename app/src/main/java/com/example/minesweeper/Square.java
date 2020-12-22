@@ -1,22 +1,33 @@
 package com.example.minesweeper;
 
+// Custom square object which is responsible for each square on the grid
 public class Square {
     private int x;
     private int y;
     private boolean visible;
     private boolean mine;
     private boolean flagged;
+    private int mine_number;
 
-    public Square(int x, int y, boolean visible, boolean mine, boolean flagged) {
+    public Square(int x, int y, boolean visible, boolean mine, boolean flagged, int mine_number) {
         this.x = x;
         this.y = y;
         this.visible = visible;
         this.mine = mine;
         this.flagged = flagged;
+        this.mine_number = mine_number;
     }
 
     public int getX() {
         return x;
+    }
+
+    public int getMine_number() {
+        return mine_number;
+    }
+
+    public void setMine_number(int mine_number) {
+        this.mine_number = mine_number;
     }
 
     public int getY() {

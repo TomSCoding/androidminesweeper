@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Minesweeper</string>
-    <string name="mines_left">Mines Left</string>
+    <string name="mines_left">Mines: 0</string>
+    <string name="covered">Covered: 0</string>
     <string name="mines_left_val">0</string>
     <string name="reset_game">Reset Game</string>
     <string name="uncover_mode">Uncover Mode</string>
