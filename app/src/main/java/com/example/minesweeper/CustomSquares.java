@@ -53,8 +53,20 @@ public class CustomSquares extends BaseAdapter {
         RelativeLayout relativeLayout=new RelativeLayout(context);
         relativeLayout.setLayoutParams(new GridView.LayoutParams((int)dpToPixels(context, 34), (int)dpToPixels(context, 34)));
 
-
-        relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+        // Set the background color to gray if mine / if visible / else covered
+        if (getItem(position).isMine() && getItem(position).isVisible()) {
+            TextView textview = new TextView(context);
+            textview.setText("M");
+            textview.setTextSize(24);
+            textview.setGravity(Gravity.CENTER_HORIZONTAL);
+            relativeLayout.setBackgroundColor(Color.parseColor("#E02C29"));
+            relativeLayout.addView(textview);
+        }
+        else if (getItem(position).isVisible()) {
+            relativeLayout.setBackgroundColor(Color.parseColor("#8F8F8F"));
+        } else {
+            relativeLayout.setBackgroundColor(Color.parseColor("#000000"));
+        }
 
 
         Log.d("Item = ", String.valueOf(getItem(position)));

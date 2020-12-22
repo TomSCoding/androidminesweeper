@@ -21,11 +21,21 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean game_active;
+    // Main Array that tracks moves
+    Square[][] move_board;
+    // Register first click
+    boolean reset_game = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set the game to active
+        game_active = true;
+
+
 
         // Create a list of squares to populate the grid
         List<Square> squares = new ArrayList<>();
@@ -44,6 +54,20 @@ public class MainActivity extends AppCompatActivity {
         GridView gridView = findViewById(R.id.gridView);
         gridView.setAdapter(adapter);
 
+        // onclick for the grid pieces
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Change color to gray when clicked
+                adapter.getItem(position).setVisible(true);
+
+                Log.d("Click position = ", String.valueOf(position));
+
+                Log.d("Position = ", String.valueOf(position));
+                adapter.notifyDataSetChanged();
+
+            }
+        });
     }
 
 
