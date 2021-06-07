@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
             revealBoard(adapter);
             game_active=false;
             game_lost=true;
+            Toast toast = Toast.makeText(getApplicationContext(), "Game Over, You Lost", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
